@@ -1,0 +1,31 @@
+{%extends 'enroll/header.html'%}
+{%load static%}
+{%block title%}LogIn Page{%endblock%}
+
+{%block css%}
+  <link rel="stylesheet" href="{% static 'enroll/css/home.css'%}">
+{%endblock%}
+
+{%block content%}
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-5">
+          {% if messages %}
+            {%for message in messages%}
+              <h4 class="alert alert-info" {%if messages.tags %} class="{{messages.tags}}" {%endif%}>{{message}}</h4>
+              {%endfor%}
+          {%endif%}
+          <form method="POST" novalidate>
+            {%csrf_token%}
+            {% for fm in form %}
+              {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
+            {%endfor%}
+            <input type="submit" class="btn btn-success" value="submit">
+          </form>
+          <br>
+          <strong><p class="lead">Don't Have An Account?<span><strong><a href="{%url 'signuppage'%}"> Sign Up</a></strong></span> Instead</p></strong>
+          <p class="lead"><a href="{%url 'reset_password'%}">Forgot Password</a></p>
+        </div>
+      </div>
+    </div>
+{%endblock%}

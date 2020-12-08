@@ -1,0 +1,111 @@
+{%extends 'enroll/header.html'%}
+{%load static%}
+{%block title%}Profile Page{%endblock%}
+{%block othercss%}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+{%endblock%}
+{%block css%}
+  <link rel="stylesheet" href="{% static 'enroll/css/home.css'%}">
+{%endblock%}
+
+{%block content%}
+  <div class="container mt-3 mb-3">
+    <h4 class="alert alert-info">User Data Type</h4>
+    <hr>
+    <table class="table table-striped table-bordered mydatatable" style="width:100%">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Staff status</th>
+          <th>SuperUser status</th>
+          <th>Date Joined</th>
+          <th>Last LogIn</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for st in users%}
+        <tr>
+          <td>{{st.username}}</td>
+          <td>{{st.first_name}}</td>
+          <td>{{st.last_name}}</td>
+          <td>{{st.email}}</td>
+          <td>{{st.is_staff}}</td>
+          <td>{{st.is_superuser}}</td>
+          <td>{{st.date_joined}}</td>
+          <td>{{st.last_login}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Staff status</th>
+          <th>SuperUser status</th>
+          <th>Date Joined</th>
+          <th>Last LogIn</th>
+        </tr>
+      </tfoot>
+    </table>
+    <hr>
+    <h4 class="text-center alert alert-info mt-3">Task Data Table</h4>
+    <table class="table table-striped table-bordered mydatatable2 mt-5" style="width:100%">
+      <thead>
+        <tr>
+          <th>User Id</th>
+          <th>User</th>
+          <th>Task Title</th>
+          <th>Task Description</th>
+          <th>Task Status</th>
+          <th>Task Published Date</th>
+          <th>Task Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for st in tasks%}
+        <tr>
+          <td>{{st.user_id}}</td>
+          <td>{{st.user}}</td>
+          <td>{{st.task_name}}</td>
+          <td>{{st.task_description}}</td>
+          <td>{{st.task_status}}</td>
+          <td>{{st.published_date}}</td>
+          <td>{{st.due_date}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>User Id</th>
+          <th>User</th>
+          <th>Task Title</th>
+          <th>Task Description</th>
+          <th>Task Status</th>
+          <th>Task Published Date</th>
+          <th>Task Due Date</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+{%endblock%}
+
+
+{%block otherjs%}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  $(".mydatatable").DataTable({
+    searching: true,
+    paging: false,
+    info: false,
+    bFilter: false,
+  });
+  $(".mydatatable2").DataTable({
+
+  });
+</script>
+{%endblock%}

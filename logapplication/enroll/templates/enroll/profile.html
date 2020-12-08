@@ -1,0 +1,92 @@
+{%extends 'enroll/header.html'%}
+{%load static%}
+{%block title%}Profile Page{%endblock%}
+
+{%block css%}
+  <link rel="stylesheet" href="{% static 'enroll/css/home.css'%}">
+{%endblock%}
+
+{%block content%}
+
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Welcome {{name}}</strong> You should check in on some of those fields below.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  {% if currentusertask %}
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          {% for st in currentusertask%}
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{st.task_name}}</h5>
+                  <p class="lead">{{st.task_description}}</p>
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{st.task_status}}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{st.task_status}}%</div>
+                  </div>
+                  <div style="color:grey" class="card-footer bg-transparent">
+                    Pub Date:- {{st.published_date}}
+                    <br>
+                    Due Date:- {{st.due_date}}
+                  </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <a type="button" class="btn btn-success" href="{% url 'updatetask' st.id %}">Update Task</a>
+                  <a type="button" class="btn btn-danger" href="{% url 'deletetask' st.id %}">Delete Task</a>
+                </div>
+              </div>
+              <br>
+          {%endfor%}
+        </div>
+        <div class="col-12 col-md-6">
+          {%if info%}
+          {%for i in info%}
+          <!-- <div class="card border-light mb-3" style="max-width: 18rem;">
+                <div class="card-header">{{i.name}}</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{i.college_name}}</h5>
+                  <p class="card-text">{{i.year}} {{i.cgpa}}</p>
+                </div>
+          </div> -->
+          {%endfor%}
+          {%else%}
+            
+          {%endif%}
+          <div class="btn-group">
+            <a type="button"  href="{%url 'logoutuser'%}" class="btn btn-danger">Log Out</a>
+            <br>
+            <a type="button" href="{%url 'changepass'%}" class="btn btn-success">Change Pass</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%else%}
+      <h5 class="alert alert-danger">No Tasks Yet!!!</h5>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="btn-group">
+              <a  type="button"  href="{%url 'logoutuser'%}" class="btn btn-danger">Log Out</a>
+              <a type="button" href="{%url 'changepass'%}" class="btn btn-success">Change Pass</a>
+            </div>
+          </div>
+          <div class="col-12 col-md-8">
+            <form method="POST" novalidate>
+              {%csrf_token%}
+              {% for fm in form %}
+                {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
+              {%endfor%}
+              <input type="submit" class="btn btn-success" value="submit">
+            </form>
+          </div>
+        </div>
+      </div>
+  {%endif%}
+{%endblock%}
+
+<script type="text/javascript">
+  $('.alert').alert()
+</script>
